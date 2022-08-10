@@ -1,0 +1,86 @@
+<h2>List of gateways</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>UID</th>
+      <th>Name</th>
+      <th>IP Address</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let gateway of gateways">
+      <td>{{gateway.uid}}</td>
+      <td style="text-align:center">{{gateway.name}}</td>
+      <td style="text-align:center">{{gateway.ipAddress}}</td>
+      <td><button class="btn btn-primary" (click)="selectg(gateway)">Peripherals</button></td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4" style="text-align:center">
+        <h3>Register new gateway</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>UID:
+        <input type="text" [(ngModel)]="ngateway.uid" name="uid" />
+      </td>
+      <td>Name:
+        <input type="text" [(ngModel)]="ngateway.name" name="name"/>
+      </td>
+      <td>IP Address (v4)
+        <input type="text" [(ngModel)]="ngateway.ipAddress" name="ipaddress"/>
+      </td>
+      <td><button class="btn btn-primary" (click)="save()">Add gateway</button></td>
+    </tr>
+  </tfoot>
+</table>
+<hr />
+<div *ngIf="sgateway.name!=''">
+  <h2>Peripherals of {{sgateway.name}}</h2>
+  <table style="width:100%;border:dotted;border-width:thin;border-collapse:collapse">
+    <thead>
+      <tr>
+        <th>UID</th>
+        <th>Vendor</th>
+        <th>Created</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let peripheral of sgateway.peripherals">
+        <td>{{peripheral.uid}}</td>
+        <td style="text-align:center">{{peripheral.vendor.name}}</td>
+        <td style="text-align:center">{{peripheral.created}}</td>
+        <td>{{peripheral.status==0?"online":"offline"}}</td>
+        <td><input type="button" value="Remove" (click)="removeP(peripheral)" /></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="5" style="text-align:center">Register new peripheral</td>
+      </tr>
+      <tr>
+        <td><input type="text" [(ngModel)]="nper.uid" name="uid" /></td>
+        <td>
+          <input type="text" [(ngModel)]="nper.nvendor" name="nvendor" list="vendors"/>
+          <datalist id="vendors">
+            <option *ngFor="let vendor of vendors" value="{{vendor.name}}">
+            {{vendor.name}}
+            </option>
+          </datalist>
+        </td>
+        <td>-</td>
+        <td><select [(ngModel)]="nper.status">
+          <option value="0">online</option>
+          <option value="1">offline</option>
+        </select></td>
+        <td>
+          <input type="button" value="Add" (click)="addP()"  />
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
